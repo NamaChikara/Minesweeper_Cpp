@@ -1,3 +1,7 @@
+// random_subset uses get_random and get_bucket in its quest to retrieve
+//  a uniformly distributed, non-repeating subset from a continuous
+//  range of integers (inclusive of end values)
+
 #pragma once
 
 #ifndef Probability_H

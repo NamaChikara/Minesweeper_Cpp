@@ -1,9 +1,10 @@
+// a Cell is a square in the Minesweeper game
+
 #pragma once
 
 #ifndef Cell_H
 #define Cell_h
 
-// a Cell is a square in the Minesweeper game
 class Cell {
 public:
 	int x;			// coordinate within the board
