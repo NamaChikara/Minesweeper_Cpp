@@ -3,7 +3,7 @@
 #pragma once
 
 #ifndef GraphicCell_H
-#define GraphicCell_h
+#define GraphicCell_H
 
 #include <SFML/Graphics.hpp>
 
@@ -18,8 +18,8 @@ public:
 	bool covered;	// true if Cell has never been clicked on
 	bool marked;	// true if the user right clicks the Cell
 	bool mistake;	// true if user left clicks a bomb
-	void update();
-	void action(char);	// respond to left or right click
+	void action(char);	// change values based on left or right click
+	void update();	// update cell color
 };
 
 #endif // !GraphicCell_H

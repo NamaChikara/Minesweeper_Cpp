@@ -2,7 +2,7 @@
 
 GraphicCell::GraphicCell(sf::Vector2f vv, int c_xloc, int c_yloc,
 	bool c_bomb, int c_touch, int c_border)
-	: RectangleShape(vv), xloc{ c_xloc }, yloc{ c_yloc },
+	: RectangleShape(vv), xloc{ c_xloc }, yloc{ c_yloc }, 
 	bomb{ c_bomb }, touching{ c_touch }
 {
 	covered = true;
