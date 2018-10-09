@@ -41,20 +41,20 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			// check to see if the user clicked in the grid
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				sf::Vector2i localPosition = sf::Mouse::getPosition(window);
+				action = Click{ localPosition.x, localPosition.y, 'l' };
+			}
+			// turn off color via right button click
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+			{
+				sf::Vector2i localPosition = sf::Mouse::getPosition(window);
+				action = Click{ localPosition.x,localPosition.y,'r' };
+			}
 		}
 		window.clear();
-		// check to see if the user clicked in the grid
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
-			sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-			action = Click { localPosition.x, localPosition.y, 'l' };
-		}
-		// turn off color via right button click
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-		{
-			sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-			action = Click{ localPosition.x,localPosition.y,'r' };
-		}
 		// update clicked cell
 		if (action.type == 'l' || action.type == 'r') 
 		{
