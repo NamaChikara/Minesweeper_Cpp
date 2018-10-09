@@ -99,7 +99,9 @@ int Board::get_cell(int x, int y)
 	int cell_size = width + 2 * buffer;
 	// check to see that the click is on the board
 	if (x > dim * cell_size || y > dim * cell_size)
+	{
 		return -1;
+	}
 	// check to see the click is not on an x buffer
 	int xcell = x / cell_size;
 	bool xinside = false;
@@ -111,8 +113,8 @@ int Board::get_cell(int x, int y)
 	if (y % cell_size > buffer && y % cell_size < width + buffer)
 		yinside = true;
 	// return the cell number if the click is not on any buffer
-	if (xcell && ycell)
-		return ycell * dim + xcell - 1;
+	if (xinside && yinside)
+		return ycell * dim + xcell;
 	else
 		return -1;
 }
