@@ -24,7 +24,8 @@ void Cell::action(char type)
 	{
 		if (covered == true)
 		{
-			covered == false;
+			covered = false;
+			marked = false;
 			if (bomb == true)
 			{
 				mistake = true;
