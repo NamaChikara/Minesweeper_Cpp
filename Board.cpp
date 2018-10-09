@@ -5,8 +5,8 @@
 #include <iostream>
 #include <string>
 
-Board::Board(int dimension, int bombs)
-	: bombs{ bombs }, dim{ dimension }
+Board::Board(int dimension, int bombs, int c_width, int c_buffer)
+	: bombs{ bombs }, dim{ dimension }, width{ c_width }, buffer{ c_buffer }
 {
 	num_cells = dim * dim;
 	cells.resize(num_cells);
@@ -92,6 +92,39 @@ void Board::load_count()
 			cells[i*dim + j].touching = count_bombs(adjacent);
 		}
 	}
+}
+
+int Board::get_cell(int x, int y)
+{
+	int cell_size = width + 2 * buffer;
+	// check to see that the click is on the board
+	if (x > dim * cell_size || y > dim * cell_size)
+		return -1;
+	// check to see the click is not on an x buffer
+	int xcell = x / cell_size;
+	bool xinside = false;
+	if (x % cell_size > buffer && x % cell_size < width + buffer)
+		xinside = true;
+	// check to see the click is not an a y buffer
+	int ycell = y / cell_size;
+	bool yinside = false;
+	if (y % cell_size > buffer && y % cell_size < width + buffer)
+		yinside = true;
+	// return the cell number if the click is not on any buffer
+	if (xcell && ycell)
+		return ycell * dim + xcell - 1;
+	else
+		return -1;
+}
+
+void Board::cell_action(int loc, char type)
+{
+	cells[loc].action(type);
+}
+
+int Board::get_num_cells()
+{
+	return num_cells;
 }
 
 void Board::print_board()

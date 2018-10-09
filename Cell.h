@@ -15,6 +15,7 @@ public:
 	bool covered;	// true if Cell has never been clicked on
 	Cell();
 	Cell(int, int, bool);	// include coordinate and bomb status
+	void action(char);	// respond to left or right click
 };
 
 #endif // !Cell_H

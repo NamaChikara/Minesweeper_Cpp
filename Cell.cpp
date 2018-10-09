@@ -15,4 +15,27 @@ Cell::Cell(int xcord, int ycord, bool has_bomb)
 	marked = false;
 	touching = 0;
 	covered = true;
+	mistake = false;
+}
+
+void Cell::action(char type)
+{
+	if (type == 'l')
+	{
+		if (covered == true)
+		{
+			covered == false;
+			if (bomb == true)
+			{
+				mistake = true;
+			}
+		}
+	}
+	if (type == 'r')
+	{
+		if (covered == true)
+		{
+			marked = !marked;
+		}
+	}
 }

@@ -12,8 +12,11 @@
 // a Board keeps track of Cells
 class Board {
 public:
-	Board(int, int);	// initialize the board with bombs and size
+	Board(int, int, int, int);	// initialize the board with bombs and size
 	void print_board();  // print board data for debugging
+	int get_cell(int, int);	// returns cell number; if click is not in a cell, -1
+	void cell_action(int, char);
+	int get_num_cells();
 private:
 	void load_bombs(int);	// randomly assign bombs to the cells
 	int count_bombs(const std::vector<std::vector<int>>&);
@@ -23,6 +26,9 @@ private:
 	int bombs;			// total bombs
 	int num_cells;		// total cells
 	int dim;
+	// graphics info (for get_cell function)
+	int width;
+	int buffer;
 	// unfinished
 	// int num_marked();	// number of bombs marked by the user
 	// int bombs_left();	// total bombs - number marked by user
