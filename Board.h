@@ -6,26 +6,32 @@
 #ifndef Board_H
 #define Board_H
 
+#include "GraphicCell.h"
+#include "Probability.h"
+#include "User_Input.h"
+
 #include <vector>
-#include "Cell.h"
 
 // a Board keeps track of Cells
 class Board {
 public:
 	Board(int, int, int, int);	// initialize the board with bombs and size
-	void print_board();  // print board data for debugging
 	int get_cell(int, int);	// returns cell number; if click is not in a cell, -1
-	void cell_action(int, char);
 	int get_num_cells();
+	void print_board();  // print board data for debugging
+	std::vector<GraphicCell> cells; // need to make some updates to move to private
+	void action(Click);		// handle a user click on the window
 private:
-	void load_bombs(int);	// randomly assign bombs to the cells
+	std::vector<bool> load_bombs(int);	// randomly assign bombs to the cells
 	int count_bombs(const std::vector<std::vector<int>>&);
-	void load_count();		// load the number of bombs a Cell touches
-	// data
-	std::vector<Cell> cells;	
+	std::vector<int> load_count();  // load the number of bombs a Cell touches
+	void load_cells();
+    // data	
 	int bombs;			// total bombs
 	int num_cells;		// total cells
 	int dim;
+	std::vector<bool> bomb_locations;
+	std::vector<int> bomb_count;
 	// graphics info (for get_cell function)
 	int width;
 	int buffer;

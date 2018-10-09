@@ -1,87 +1,89 @@
 #include "Board.h"
-#include "Cell.h"
-#include "Probability.h"
-
-#include <iostream>
-#include <string>
 
 Board::Board(int dimension, int bombs, int c_width, int c_buffer)
 	: bombs{ bombs }, dim{ dimension }, width{ c_width }, buffer{ c_buffer }
 {
 	num_cells = dim * dim;
-	cells.resize(num_cells);
-	load_bombs(bombs);
-	load_count();
+	bomb_locations = load_bombs(bombs);
+	bomb_count = load_count();
+	load_cells();
 }
 
-void Board::load_bombs(int bombs)
+std::vector<bool> Board::load_bombs(int bombs)
 {
 	std::vector<int> locations = random_subset(bombs, 0, num_cells - 1);
-	int xcord = 0;
-	int ycord = 0;
-	for (int i = 0; i < bombs; ++i)
+	std::vector<bool> bomb_loc;
+	bool bomb_found = false;
+	for (int i = 0; i < num_cells; ++i)
 	{	
-		// coordinates are 0-indexed
-		cells[locations[i]].x = locations[i] % dim;
-		cells[locations[i]].y = locations[i] / dim;
-		cells[locations[i]].bomb = true;
+		for (int j = 0; j < locations.size(); ++j)
+		{
+			// coordinates are 0-indexed
+			if (i == locations[j])
+			{
+				bomb_found = true;
+			}
+		}
+		bomb_loc.push_back(bomb_found);
+		bomb_found = false;
+		/*
+		if (bomb_found == true)
+		{
+			bomb_loc.push_back(1);
+			bomb_found = false;
+		}
+		else
+		{
+			bomb_loc.push_back(0);
+		}
+		*/
 	}
+	return bomb_loc;
 }
 
-int Board::count_bombs(const std::vector<std::vector<int>>& locations)
-{
-	int bomb_count = 0;
-	// note that a true boolean value implicitly converts to 1, and
-	//  false implicitly to 0
-	for (size_t i = 0; i < locations.size(); ++i)
-	{
-		bomb_count += cells[locations[i][0] * dim + locations[i][1]].bomb;
-	}
-	return bomb_count;
-}
-
-void Board::load_count()
+std::vector<int> Board::load_count()
 {
 	std::vector<std::vector<int>> adjacent;	// {x,y} coordinates of ajacent cells
+	std::vector<int> bomb_count(num_cells);
 
 	// top left corner
 	adjacent = { {0,1},{1,0},{1,1} };
-	cells[0].touching = count_bombs(adjacent);
+	bomb_count[0] = count_bombs(adjacent);
 	// bottom left corner
 	adjacent = { {dim - 2, 0},{dim - 2,1},{dim - 1,1} };
-	cells[dim*(dim - 1)].touching = count_bombs(adjacent);
+	bomb_count[dim*(dim - 1)] = count_bombs(adjacent);
 	// bottom right corner
 	adjacent = { {dim - 1,dim - 2},{dim - 2,dim - 2},{dim - 2,dim - 1} };
-	cells[dim*(dim - 1) + dim - 1].touching = count_bombs(adjacent);
+	bomb_count[dim*(dim - 1) + dim - 1] = count_bombs(adjacent);
 	// top right corner
 	adjacent = { {0, dim - 2},{1,dim - 2},{1,dim - 1} };
-	cells[dim - 1].touching = count_bombs(adjacent);
+	bomb_count[dim - 1] = count_bombs(adjacent);
 
 	// left-most column
 	for (int i = 1; i < dim - 1; ++i)
 	{
 			adjacent = { {i - 1,0},{i - 1,1},{i,1},{i + 1,1},{i + 1,0} };
-			cells[i*dim].touching = count_bombs(adjacent);
+			bomb_count[i*dim] = count_bombs(adjacent);
 	}
 	// bottom-most row
 	for (int i = 1; i < dim - 1; ++i)
 	{
 		adjacent = { {dim - 1,i - 1},{dim - 2,i - 1},{dim - 2,i},{dim - 2,i + 1},{dim - 1, i + 1} };
-		cells[dim*(dim - 1) + i].touching = count_bombs(adjacent);
+		bomb_count[dim*(dim - 1) + i] = count_bombs(adjacent);
 	}
 	// right-most column
 	for (int i = 1; i < dim - 1; ++i)
 	{
 			adjacent = { {i - 1,dim - 1},{i - 1,dim - 2},{i,dim - 2},{i + 1,dim - 2},{i + 1,dim - 1} };
-			cells[i*dim + dim - 1].touching = count_bombs(adjacent);
+			bomb_count[i*dim + dim - 1] = count_bombs(adjacent);
 	}
 	// top-most row
 	for (int i = 1; i < dim - 1; ++i)
 	{
 		adjacent = { {0,i - 1},{1,i - 1},{1,i},{1,i + 1},{0,i + 1} };
-		cells[i].touching = count_bombs(adjacent);
+		bomb_count[i] = count_bombs(adjacent);
 	}
-	
+
 	// center of the board
 	for (int i = 1; i < dim - 1; ++i)
 	{
@@ -89,8 +91,37 @@ void Board::load_count()
 		{
 			adjacent = { {i - 1,j - 1},{i,j - 1},{i + 1,j - 1},{i + 1,j},
 							{i + 1,j + 1},{i,j + 1},{i - 1,j + 1},{i - 1,j} };
-			cells[i*dim + j].touching = count_bombs(adjacent);
+			bomb_count[i*dim + j] = count_bombs(adjacent);
 		}
+	}
+
+	return bomb_count;
+}
+
+int Board::count_bombs(const std::vector<std::vector<int>>& locations)
+{
+	int local_bomb_count = 0;
+	// note that a true boolean value implicitly converts to 1, and
+	//  false implicitly to 0
+	for (size_t i = 0; i < locations.size(); ++i)
+	{
+		local_bomb_count += bomb_locations[locations[i][0] * dim + locations[i][1]];
+	}
+	return local_bomb_count;
+}
+
+void Board::load_cells()
+{
+	for (int i = 0; i < num_cells; ++i)
+	{
+		int xcell = i % dim;
+		int ycell = i / dim;
+		int x_winloc = xcell * (width + 2 * buffer) + buffer;
+		int y_winloc = ycell * (width + 2 * buffer) + buffer;
+		float f_width = (float)width;
+		cells.push_back(GraphicCell{ sf::Vector2f{f_width,f_width},
+			x_winloc, y_winloc, bomb_locations[i], bomb_count[i], 
+			buffer });
 	}
 }
 
@@ -119,9 +150,13 @@ int Board::get_cell(int x, int y)
 		return -1;
 }
 
-void Board::cell_action(int loc, char type)
+void Board::action(Click input)
 {
-	cells[loc].action(type);
+	int loc = get_cell(input.x, input.y);
+	if (loc >= 0 && loc < num_cells)
+	{
+		cells[loc].action(input.type);
+	}
 }
 
 int Board::get_num_cells()
