@@ -45,6 +45,9 @@ int main()
 	// initialize for use in window.isOpen() loop
 	Click user_action;
 
+	// timer for user progress
+	sf::Clock clock;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -86,6 +89,9 @@ int main()
 		int bombs_unmarked = bombs - m_board.num_marked() - mistakes_made;
 		m_info.bomb_text.setString(std::to_string(bombs_unmarked));
 
+		sf::Time elapsed = clock.getElapsedTime();
+		int time = (int)elapsed.asSeconds();
+		m_info.clock_text.setString(std::to_string(time));
 
 		// draw the InfoBar (pass RenderWindow to InfoBar so that it can do it
 		//  on its own?)
