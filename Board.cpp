@@ -201,6 +201,26 @@ bool Board::all_marked()
 	return (bombs_determined == bombs) ? true : false;
 }
 
+void Board::move_colors()
+{
+	sf::Color first_cell;
+	for (size_t i = 0; i < cells.size(); ++i)
+	{
+		if (i == 1)
+		{
+			first_cell = cells[i].getFillColor();
+		}
+		if (i == cells.size() - 1)
+		{
+			cells[i].setFillColor(first_cell);
+		}
+		else
+		{
+			cells[i].setFillColor(cells[i + 1].getFillColor());
+		}
+	}
+}
+
 // text-based version of the GraphicCell data (for debugging)
 void Board::print_board()
 {

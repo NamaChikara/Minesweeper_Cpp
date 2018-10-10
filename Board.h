@@ -26,7 +26,8 @@ public:
 	void action(Click);			// handle a user click on the window
 	int num_marked();			// number of bombs marked by the user
 	int num_mistakes();			// number of bombs left clicked by the user
-	bool all_marked();
+	bool all_marked();			// true if all bombs successfully marked/uncovered
+	void move_colors();			// visual effect in case of user win
 private:
 	// board initialization functions
 	std::vector<bool> load_bombs(int);	// output has length equal to num_cells, true/false
