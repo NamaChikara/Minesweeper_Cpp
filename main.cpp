@@ -13,14 +13,9 @@
 
 int main()
 {	
-	// data for Board construction
+	// game specifications
 	int dim = 15;		// number of GraphicCells per row/column (square game board)
 	int bomb = 20;		// number of bombs the board should have
-	int b_width = 5;	// width of the border of a GraphicCell
-	int c_width = 800/dim - b_width*2;	// width of the interior of a GraphicCell
-	// initialize Board
-	Board m_board{ dim,bomb,c_width,b_width };
-	m_board.print_board();		// compare graphic output with text-based version
 
 	// y offset for the info bar
 	float info_text_yset = 25;
@@ -36,11 +31,18 @@ int main()
 		mistake_text_x, font_file };
 
 	// set RenderWindow dimensions and initialize;
-	int win_width = dim * (c_width + 2 * b_width);
-	int win_height = dim * (c_width + 2 * b_width);
-	sf::RenderWindow window(sf::VideoMode(win_width,win_height), "Minesweeper");
+	int win_height = 800;
+	int win_width = win_height - info_text_height;
+	sf::RenderWindow window(sf::VideoMode(win_width, win_height), "Minesweeper");
 
+	// set/calculate GraphicCell dimensions
+	int b_width = 5;	// width of the border of a GraphicCell
+	int c_width = (win_height - info_text_height)/dim - b_width*2;	// width of the interior of a GraphicCell
+	// initialize Board
+	Board m_board{ dim,bomb,c_width,b_width,(int)info_text_height };
+	m_board.print_board();		// compare graphic output with text-based version
 
+	// initialize for use in window.isOpen() loop
 	Click user_action;
 
 	while (window.isOpen())
@@ -74,15 +76,20 @@ int main()
 
 		for (int i = 0; i < m_board.cells.size(); ++i)
 		{
-			// move the cells down to accommodate the info bar, then back up so that
-			//  Board's member function get_cell still works 
-			//  !! (Need to make this more intuitive)
-			m_board.cells[i].move(sf::Vector2f(float(0), info_text_yset));
 			window.draw(m_board.cells[i]);
-			m_board.cells[i].move(sf::Vector2f(float(0), -info_text_yset));
 		}
 
-		user_action = Click{};  // reset the value of user_action for the next loop
+		// draw the InfoBar (pass RenderWindow to InfoBar so that it can do it
+		//  on its own?)
+		window.draw(m_info.clock);
+		window.draw(m_info.bomb_count);
+		window.draw(m_info.mistake_count);
+		window.draw(m_info.clock_text);
+		window.draw(m_info.bomb_text);
+		window.draw(m_info.mistake_text);
+
+		// reset the value of user_action for the next loop
+		user_action = Click{};  
 
 		window.display();
 	}
