@@ -1,7 +1,9 @@
 #include "Board.h"
 
-Board::Board(int dimension, int bombs, int c_width, int c_buffer)
-	: bombs{ bombs }, dim{ dimension }, width{ c_width }, buffer{ c_buffer }
+Board::Board(int dimension, int bombs, int c_width,
+	int c_buffer, int y_off)
+	: bombs{ bombs }, dim{ dimension }, width{ c_width }, 
+	buffer{ c_buffer }, y_offset{ y_off }
 {
 	num_cells = dim * dim;
 	bomb_locations = load_bombs(bombs);
@@ -107,7 +109,8 @@ void Board::load_cells()
 		int ycell = i / dim;
 		// calculate where the top left corner of the GraphicCell should be
 		int x_winloc = xcell * (width + 2 * buffer) + buffer;
-		int y_winloc = ycell * (width + 2 * buffer) + buffer;
+		// !! need to make sure float and int are used consistently
+		int y_winloc = ycell * (width + 2 * buffer) + buffer + y_offset;  
 		float f_width = (float)width;
 		cells.push_back(GraphicCell{ sf::Vector2f{f_width,f_width},
 			x_winloc, y_winloc, bomb_locations[i], bomb_count[i], 
@@ -119,7 +122,7 @@ int Board::get_cell(int x, int y)
 {
 	int cell_size = width + 2 * buffer;
 	// check to see that the click is on the board
-	if (x > dim * cell_size || y > dim * cell_size)
+	if (x > dim * cell_size || y < y_offset || y > dim * cell_size + y_offset)
 	{
 		return -1;
 	}
@@ -127,17 +130,18 @@ int Board::get_cell(int x, int y)
 	int xcell = x / cell_size;
 	bool xinside = false;
 	if (x % cell_size > buffer && x % cell_size < width + buffer)
+	{
 		xinside = true;
-	// check to see the click is not an a y buffer
-	int ycell = y / cell_size;
+	}
+	// check to see the click is not an a y buffer (must subtract y_offset)
+	int ycell = (y - y_offset) / cell_size;
 	bool yinside = false;
-	if (y % cell_size > buffer && y % cell_size < width + buffer)
+	if ((y - y_offset) % cell_size > buffer && (y - y_offset) % cell_size < width + buffer)
+	{
 		yinside = true;
-	// return the GraphicCell number if the click is not on any buffer
-	if (xinside && yinside)
-		return ycell * dim + xcell;
-	else
-		return -1;
+	}
+	// return the GraphicCell number if the click is not on any buffer (-1 for error)
+	return (xinside && yinside) ? ycell * dim + xcell : -1;
 }
 
 void Board::action(Click input)
