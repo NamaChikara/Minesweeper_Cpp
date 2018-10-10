@@ -115,7 +115,9 @@ int main()
 		}
 		if (won)
 		{
-			m_info.clock_text.setString("you won!");
+			m_info.clock_text.setString("");
+			m_info.bomb_text.setString("you won!");
+			m_info.mistake_text.setString("");
 			window.draw(m_info.clock_text);
 		}
 
