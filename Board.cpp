@@ -158,6 +158,32 @@ int Board::get_num_cells()
 	return num_cells;
 }
 
+int Board::num_marked()
+{
+	int marked = 0;
+	for (size_t i = 0; i < cells.size(); ++i)
+	{
+		if (cells[i].marked)
+		{
+			++marked;
+		}
+	}
+	return marked;
+}
+
+int Board::num_mistakes()
+{
+	int mistakes = 0;
+	for (size_t i = 0; i < cells.size(); ++i)
+	{
+		if (cells[i].mistake)
+		{
+			++mistakes;
+		}
+	}
+	return mistakes;
+}
+
 // text-based version of the GraphicCell data (for debugging)
 void Board::print_board()
 {
@@ -166,6 +192,8 @@ void Board::print_board()
 		std::string b = (cells[i].bomb) ? "b" : "";
 		std::cout << cells[i].touching << b << '\t';
 		if (i % dim == dim - 1)
+		{
 			std::cout << std::endl;
+		}
 	}
 }
