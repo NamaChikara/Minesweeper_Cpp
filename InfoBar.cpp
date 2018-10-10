@@ -11,6 +11,8 @@ InfoBar::InfoBar(int tt, int bb, int mm,
 		std::cerr << "Could not load " << font_file << " font file." << std::endl;
 	}
 
+	// note: the string values of these text boxes is set in main.cpp
+	//  the locations are also set in main.cpp via InfoBar::update_location();
 	clock_text.setFont(font);
 	clock_text.setCharacterSize(24);
 	clock_text.setFillColor(sf::Color::Blue);
@@ -27,14 +29,17 @@ InfoBar::InfoBar(int tt, int bb, int mm,
 void InfoBar::update_location()
 {
 	float clock_width = clock_text.getGlobalBounds().width;
-	float clock_x = screen_width / 4 - clock_width / 2;
+	float bomb_width = bomb_text.getGlobalBounds().width;
+	float mistake_width = mistake_text.getGlobalBounds().width;
+
+	float spacing = (screen_width - clock_width - bomb_width - mistake_width) / 4;
+
+	float clock_x = spacing;
 	clock_text.setPosition(sf::Vector2f(clock_x, y_offset));
 
-	float bomb_width = bomb_text.getGlobalBounds().width;
-	float bomb_x = 2 * screen_width / 4 - bomb_width / 2;
+	float bomb_x = 2 * spacing + clock_width;
 	bomb_text.setPosition(sf::Vector2f(bomb_x, y_offset));
 
-	float mistake_width = mistake_text.getGlobalBounds().width;
-	float mistake_x = 3 * screen_width / 4 - mistake_width / 2;
+	float mistake_x = 3 * spacing + clock_width + bomb_width;
 	mistake_text.setPosition(sf::Vector2f(mistake_x, y_offset));
 }
