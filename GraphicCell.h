@@ -21,7 +21,7 @@ public:
 	bool marked;	// true if the user right clicks the Cell
 	bool mistake;	// true if user left clicks a bomb
 	void action(char);	// change values based on left or right click
-	void update();	// update cell color
+	void update();	// update cell color after action
 };
 
 #endif // !GraphicCell_H

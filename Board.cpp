@@ -184,6 +184,23 @@ int Board::num_mistakes()
 	return mistakes;
 }
 
+bool Board::all_marked()
+{
+	int bombs_determined = 0;
+	for (size_t i = 0; i < cells.size(); ++i)
+	{
+		if (cells[i].marked && cells[i].bomb)
+		{
+			++bombs_determined;
+		}
+		else if (cells[i].mistake)
+		{
+			++bombs_determined;
+		}
+	}
+	return (bombs_determined == bombs) ? true : false;
+}
+
 // text-based version of the GraphicCell data (for debugging)
 void Board::print_board()
 {
