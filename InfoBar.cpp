@@ -1,33 +1,40 @@
 #include "InfoBar.h"
 
 InfoBar::InfoBar(int tt, int bb, int mm,
-	float yloc, float xclock, float xbomb, float xmistakes,
+	float yloc, float swidth,
 	std::string font_file)
 	: time{ tt }, bombs{ bb }, mistakes{ mm },
-	clock{ sf::Vector2f{xclock,yloc} },
-	bomb_count{ sf::Vector2f{xbomb,yloc} },
-	mistake_count{ sf::Vector2f{xmistakes,yloc} }
+	screen_width{ swidth }, y_offset{ yloc }
 {
 	if (!font.loadFromFile(font_file))
 	{
 		std::cerr << "Could not load " << font_file << " font file." << std::endl;
 	}
 
-	time_text.setFont(font);
-	time_text.setString(std::to_string(time));
-	time_text.setCharacterSize(24);
-	time_text.setFillColor(sf::Color::Blue);
-	time_text.move(sf::Vector2f(xclock, yloc));
+	clock_text.setFont(font);
+	clock_text.setCharacterSize(24);
+	clock_text.setFillColor(sf::Color::Blue);
 
 	bomb_text.setFont(font);
-	bomb_text.setString(std::to_string(bombs));
 	bomb_text.setCharacterSize(24);
 	bomb_text.setFillColor(sf::Color::Blue);
-	bomb_text.move(sf::Vector2f(xbomb, yloc));
 
 	mistake_text.setFont(font);
-	mistake_text.setString(std::to_string(mistakes));
 	mistake_text.setCharacterSize(24);
 	mistake_text.setFillColor(sf::Color::Blue);
-	mistake_text.move(sf::Vector2f(xmistakes, yloc));
+}
+
+void InfoBar::update_location()
+{
+	float clock_width = clock_text.getGlobalBounds().width;
+	float clock_x = screen_width / 4 - clock_width / 2;
+	clock_text.setPosition(sf::Vector2f(clock_x, y_offset));
+
+	float bomb_width = bomb_text.getGlobalBounds().width;
+	float bomb_x = 2 * screen_width / 4 - bomb_width / 2;
+	bomb_text.setPosition(sf::Vector2f(bomb_x, y_offset));
+
+	float mistake_width = mistake_text.getGlobalBounds().width;
+	float mistake_x = 3 * screen_width / 4 - mistake_width / 2;
+	mistake_text.setPosition(sf::Vector2f(mistake_x, y_offset));
 }

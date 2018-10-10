@@ -15,8 +15,10 @@ struct InfoBar
 	//  top left corner of each RectangleShape (they all have the same vertical orientation),
 	//  and the horizontal locations of the top of each (unique to each RectangleShape)
 	//  right corners (different for each); the string is the font file name for font
-	InfoBar(int, int, int, float, float, float, float, std::string);		
-							
+	InfoBar(int, int, int, float, float, std::string);		
+						
+	void update_location();
+
 	// RectangleShapes will hold the Text objects
 	sf::RectangleShape clock;
 	sf::RectangleShape bomb_count;
@@ -25,7 +27,7 @@ struct InfoBar
 	sf::Font font;	// must load a font to draw Text objects
 
 	// Text objects will be placed inside the RectangleShapes
-	sf::Text time_text;
+	sf::Text clock_text;
 	sf::Text bomb_text;
 	sf::Text mistake_text;
 
@@ -33,6 +35,8 @@ struct InfoBar
 	int time;
 	int bombs;
 	int mistakes;
+	float screen_width;
+	float y_offset;
 };
 
 #endif //!InfoBar_H
