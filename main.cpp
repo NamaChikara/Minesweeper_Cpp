@@ -15,7 +15,7 @@ int main()
 {	
 	// game specifications
 	int dim = 15;		// number of GraphicCells per row/column (square game board)
-	int bomb = 20;		// number of bombs the board should have
+	int bombs = 20;		// number of bombs the board should have
 
 	// y offset for the info bar
 	float info_text_yset = 25;
@@ -27,7 +27,7 @@ int main()
 	// font for Text objects
 	std::string font_file = "SourceSansPro.otf";
 	// initialize InfoBar
-	InfoBar m_info{ 0,bomb,0,info_text_yset,bomb_text_x,clock_text_x,
+	InfoBar m_info{ 0,bombs,0,info_text_yset,bomb_text_x,clock_text_x,
 		mistake_text_x, font_file };
 
 	// set RenderWindow dimensions and initialize;
@@ -39,7 +39,7 @@ int main()
 	int b_width = 5;	// width of the border of a GraphicCell
 	int c_width = (win_height - info_text_height)/dim - b_width*2;	// width of the interior of a GraphicCell
 	// initialize Board
-	Board m_board{ dim,bomb,c_width,b_width,(int)info_text_height };
+	Board m_board{ dim,bombs,c_width,b_width,(int)info_text_height };
 	m_board.print_board();		// compare graphic output with text-based version
 
 	// initialize for use in window.isOpen() loop
@@ -79,11 +79,16 @@ int main()
 			window.draw(m_board.cells[i]);
 		}
 
+		// update InfoBar data
+		int mistakes_made = m_board.num_mistakes();
+		m_info.mistake_text.setString(std::to_string(mistakes_made));
+
+		int bombs_unmarked = bombs - m_board.num_marked() - mistakes_made;
+		m_info.bomb_text.setString(std::to_string(bombs_unmarked));
+
+
 		// draw the InfoBar (pass RenderWindow to InfoBar so that it can do it
 		//  on its own?)
-		window.draw(m_info.clock);
-		window.draw(m_info.bomb_count);
-		window.draw(m_info.mistake_count);
 		window.draw(m_info.clock_text);
 		window.draw(m_info.bomb_text);
 		window.draw(m_info.mistake_text);
