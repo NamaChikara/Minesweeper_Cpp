@@ -15,7 +15,9 @@ GraphicCell::GraphicCell(sf::Vector2f vv, int c_xloc, int c_yloc,
 }
 
 void GraphicCell::action(char type)
-{
+{	
+	// left click uncovers the cell; its color changes based on 
+	//	the value of bomb and covered (see update())
 	if (type == 'l')
 	{
 		if (covered == true)
@@ -28,6 +30,8 @@ void GraphicCell::action(char type)
 			}
 		}
 	}
+	// right click "marks" a cell if it is uncovered
+	//	color change is handled in update()
 	if (type == 'r')
 	{
 		if (covered == true)
@@ -39,9 +43,11 @@ void GraphicCell::action(char type)
 }
 
 void GraphicCell::update()
-{
+{	
 	if (!covered)
 	{
+		// fillColor based on number touching, then override with
+		//  black if there is a bomb
 		switch (touching)
 		{
 		case 0:
@@ -67,7 +73,7 @@ void GraphicCell::update()
 			setFillColor(sf::Color());
 	}
 	else
-		setFillColor(sf::Color(128, 128, 128));
+		setFillColor(sf::Color(128, 128, 128));	// standard fill color
 	if (marked == true)
-		setFillColor(sf::Color(255, 255, 0));
+		setFillColor(sf::Color(255, 255, 0));	// marked as possible bomb
 }

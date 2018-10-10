@@ -9,8 +9,10 @@
 
 class GraphicCell : public sf::RectangleShape {
 public:
+	// construct RectangleShape, set covered to true, marked and mistake
+	//  to false;  move to the appropriate board location.
+	//  the last int specifies outline thickness of the RectangleShape
 	GraphicCell(sf::Vector2f, int, int, bool, int, int);
-	using RectangleShape::RectangleShape;
 	int xloc;		// x coordinate within the window
 	int yloc;		// y coordinate within the window
 	bool bomb;		// true if the Cell holds a bomb
