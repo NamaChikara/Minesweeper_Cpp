@@ -10,12 +10,13 @@
 #include "GraphicCell.h"
 #include "User_Input.h"
 #include "InfoBar.h"
+#include "Cascade.h"
 
 int main()
 {	
 	// game specifications
-	int dim = 6;		// number of GraphicCells per row/column (square game board)
-	int bombs = 2;		// number of bombs the board should have
+	int dim = 3;		// number of GraphicCells per row/column (square game board)
+	int bombs = 1;		// number of bombs the board should have
 
 	// initialize info_text_height before InfoBar since needed for RenderWindow dimension
 	float info_text_height = 75;
@@ -43,16 +44,27 @@ int main()
 	Board m_board{ dim,bombs,c_width,b_width,(int)info_text_height };
 	m_board.print_board();		// compare graphic output with text-based version
 
+	// initialize Cascade for visual effect upon user completion
+	Cascade win_visual{ m_board.cells };
+
 	// initialize for use in window.isOpen() loop
 	Click user_action;
 
 	// to keep track of user progress
 	sf::Clock clock;
 	bool won = false;
+	
+	// to apply color shift effect in case of win
+	float elapsed = 0;			 // to keep track of time for color shift
+	float visual_interval = 250; // milliseconds between color shift 
 
 	while (window.isOpen())
 	{
+		// check to see if the user won the game
+		won = m_board.all_marked();
+
 		sf::Event event;
+
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
@@ -74,19 +86,29 @@ int main()
 
 		window.clear();	
 
+		if (user_action.type == 'l' || user_action.type == 'r')
+		{
+			m_board.action(user_action);	// pass the action to the Board to update
+		}
+
+		// apply cascade effect at intervals
+		if (won)
+		{
+			if (elapsed < clock.getElapsedTime().asMilliseconds() - visual_interval)
+			{
+				elapsed = clock.getElapsedTime().asMilliseconds();
+				m_board.move_colors();
+			}
+		}
+
+		for (int i = 0; i < m_board.cells.size(); ++i)
+		{
+			window.draw(m_board.cells[i]);
+		}
+
+		// update InfoBar data
 		if (!won)
 		{
-			if (user_action.type == 'l' || user_action.type == 'r')
-			{
-				m_board.action(user_action);	// pass the action to the Board to update
-			}
-
-			for (int i = 0; i < m_board.cells.size(); ++i)
-			{
-				window.draw(m_board.cells[i]);
-			}
-
-			// update InfoBar data
 			int mistakes_made = m_board.num_mistakes();
 			std::string m_text = "Mistakes: " + std::to_string(mistakes_made);
 			m_info.mistake_text.setString(m_text);
@@ -98,28 +120,21 @@ int main()
 			sf::Time elapsed = clock.getElapsedTime();
 			int time = (int)elapsed.asSeconds();
 			m_info.clock_text.setString(std::to_string(time));
-
-			m_info.update_location();
-
-			// draw the InfoBar (pass RenderWindow to InfoBar so that it can do it
-			//  on its own?)
-			window.draw(m_info.clock_text);
-			window.draw(m_info.bomb_text);
-			window.draw(m_info.mistake_text);
-
-			// check to see if the user won the game
-			won = m_board.all_marked();
-
-			// reset the value of user_action for the next loop
-			user_action = Click{};
 		}
-		if (won)
+		else
 		{
-			m_info.clock_text.setString("");
-			m_info.bomb_text.setString("you won!");
-			m_info.mistake_text.setString("");
-			window.draw(m_info.clock_text);
+			m_info.bomb_text.setString("Winner!");
 		}
+
+		m_info.update_location();
+
+		// draw the InfoBar
+		window.draw(m_info.clock_text);
+		window.draw(m_info.bomb_text);
+		window.draw(m_info.mistake_text);
+
+		// reset the value of user_action for the next loop
+		user_action = Click{};
 
 		window.display();
 	}
