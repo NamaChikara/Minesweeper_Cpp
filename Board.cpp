@@ -26,17 +26,6 @@ std::vector<bool> Board::load_bombs(int bombs)
 		}
 		bomb_loc.push_back(bomb_found);
 		bomb_found = false;
-		/*
-		if (bomb_found == true)
-		{
-			bomb_loc.push_back(1);
-			bomb_found = false;
-		}
-		else
-		{
-			bomb_loc.push_back(0);
-		}
-		*/
 	}
 	return bomb_loc;
 }
@@ -116,6 +105,7 @@ void Board::load_cells()
 	{
 		int xcell = i % dim;
 		int ycell = i / dim;
+		// calculate where the top left corner of the GraphicCell should be
 		int x_winloc = xcell * (width + 2 * buffer) + buffer;
 		int y_winloc = ycell * (width + 2 * buffer) + buffer;
 		float f_width = (float)width;
@@ -143,7 +133,7 @@ int Board::get_cell(int x, int y)
 	bool yinside = false;
 	if (y % cell_size > buffer && y % cell_size < width + buffer)
 		yinside = true;
-	// return the cell number if the click is not on any buffer
+	// return the GraphicCell number if the click is not on any buffer
 	if (xinside && yinside)
 		return ycell * dim + xcell;
 	else
@@ -164,6 +154,7 @@ int Board::get_num_cells()
 	return num_cells;
 }
 
+// text-based version of the GraphicCell data (for debugging)
 void Board::print_board()
 {
 	for (int i = 0; i < num_cells; ++i)
