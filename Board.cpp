@@ -158,7 +158,7 @@ int Board::get_num_cells()
 	return num_cells;
 }
 
-int Board::num_marked()
+int Board::num_marked() const
 {
 	int marked = 0;
 	for (size_t i = 0; i < cells.size(); ++i)
@@ -171,7 +171,7 @@ int Board::num_marked()
 	return marked;
 }
 
-int Board::num_mistakes()
+int Board::num_mistakes() const
 {
 	int mistakes = 0;
 	for (size_t i = 0; i < cells.size(); ++i)
@@ -184,7 +184,12 @@ int Board::num_mistakes()
 	return mistakes;
 }
 
-bool Board::all_marked()
+int Board::num_bombs() const
+{
+	return bombs;
+}
+
+bool Board::all_marked() const
 {
 	int bombs_determined = 0;
 	for (size_t i = 0; i < cells.size(); ++i)

@@ -24,11 +24,12 @@ public:
 	void print_board();			// print board data for debugging
 	std::vector<GraphicCell> cells; // make some updates to move to private?
 	void action(Click);			// handle a user click on the window
-	int num_marked();			// number of bombs marked by the user
-	int num_mistakes();			// number of bombs left clicked by the user
-	bool all_marked();			// true if all bombs successfully marked/uncovered
+	int num_marked() const;		// number of bombs marked by the user
+	int num_mistakes() const;	// number of bombs left clicked by the user
+	int num_bombs() const;		// return number of bombs on the Board
+	bool all_marked() const;	// true if all bombs successfully marked/uncovered
 	void move_colors();			// visual effect in case of user win
-	void draw(sf::RenderTarget& );	// draw the GraphicCells in cells
+	void draw(sf::RenderTarget& );	// draw the GraphicCells in cells to RenderTarget
 private:
 	// board initialization functions
 	std::vector<bool> load_bombs(int);	// output has length equal to num_cells, true/false
