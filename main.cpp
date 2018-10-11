@@ -10,13 +10,12 @@
 #include "GraphicCell.h"
 #include "User_Input.h"
 #include "InfoBar.h"
-#include "Cascade.h"
 
 int main()
 {	
 	// game specifications
-	int dim = 3;		// number of GraphicCells per row/column (square game board)
-	int bombs = 1;		// number of bombs the board should have
+	int dim = 15;		// number of GraphicCells per row/column (square game board)
+	int bombs = 25;		// number of bombs the board should have
 
 	// initialize info_text_height before InfoBar since needed for RenderWindow dimension
 	float info_text_height = 75;
@@ -43,9 +42,6 @@ int main()
 	// initialize Board
 	Board m_board{ dim,bombs,c_width,b_width,(int)info_text_height };
 	m_board.print_board();		// compare graphic output with text-based version
-
-	// initialize Cascade for visual effect upon user completion
-	Cascade win_visual{ m_board.cells };
 
 	// initialize for use in window.isOpen() loop
 	Click user_action;
@@ -101,10 +97,7 @@ int main()
 			}
 		}
 
-		for (int i = 0; i < m_board.cells.size(); ++i)
-		{
-			window.draw(m_board.cells[i]);
-		}
+		m_board.draw(window);
 
 		// update InfoBar data
 		if (!won)
