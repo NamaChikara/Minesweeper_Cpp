@@ -9,8 +9,9 @@
 #include <string>
 #include <iostream> 
 
-struct InfoBar
+class InfoBar : public sf::Drawable 
 {
+public:
 	// initialize clock time, number of bombs, number of mistakes, the height of the
 	//  top left corner of each RectangleShape (they all have the same vertical orientation),
 	//  and the horizontal locations of the top of each (unique to each RectangleShape)
@@ -32,6 +33,10 @@ struct InfoBar
 	int mistakes;
 	float screen_width;
 	float y_offset;
+
+	// override sf::Drawable's pure virtual function
+	virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
+
 };
 
 #endif //!InfoBar_H

@@ -43,3 +43,10 @@ void InfoBar::update_location()
 	float mistake_x = 3 * spacing + clock_width + bomb_width;
 	mistake_text.setPosition(sf::Vector2f(mistake_x, y_offset));
 }
+
+void InfoBar::draw(sf::RenderTarget& target, sf::RenderStates) const
+{
+	target.draw(clock_text);
+	target.draw(bomb_text);
+	target.draw(mistake_text);
+}
