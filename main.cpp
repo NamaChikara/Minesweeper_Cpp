@@ -122,9 +122,12 @@ int main()
 		m_info.update_location();
 
 		// draw the InfoBar
+		m_info.draw(window, sf::RenderStates());
+		/*
 		window.draw(m_info.clock_text);
 		window.draw(m_info.bomb_text);
 		window.draw(m_info.mistake_text);
+		*/
 
 		// reset the value of user_action for the next loop
 		user_action = Click{};
