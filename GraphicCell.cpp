@@ -12,6 +12,10 @@ GraphicCell::GraphicCell(sf::Vector2f vv, int c_xloc, int c_yloc,
 	setOutlineThickness(c_border);
 	move(sf::Vector2f(xloc, yloc));
 	setOutlineColor(sf::Color());	// default constructor is black
+	// color for 0 touching through 8 touching
+	colors = { sf::Color(255,255,255), sf::Color(0,0,255), sf::Color(0,100,0),
+		sf::Color(255,0,0), sf::Color(128,0,128), sf::Color(0,191,255),
+		sf::Color(50,205,50), sf::Color(240,128,128), sf::Color(255,140,0) };
 }
 
 void GraphicCell::action(char type)
@@ -48,27 +52,7 @@ void GraphicCell::update()
 	{
 		// fillColor based on number touching, then override with
 		//  black if there is a bomb
-		switch (touching)
-		{
-		case 0:
-			setFillColor(sf::Color(255, 255, 255));
-			break;
-		case 1:
-			setFillColor(sf::Color(0, 0, 255));
-			break;
-		case 2:
-			setFillColor(sf::Color(0, 255, 0));
-			break;
-		case 3:
-			setFillColor(sf::Color(255, 0, 0));
-			break;
-		case 4:
-			setFillColor(sf::Color(128, 0, 128));
-			break;
-		default:
-			setFillColor(sf::Color(255, 255, 255));
-			break;
-		}
+		setFillColor(colors[touching]);
 		if (bomb)
 			setFillColor(sf::Color());
 	}
