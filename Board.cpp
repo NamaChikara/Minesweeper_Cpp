@@ -208,16 +208,24 @@ void Board::move_colors()
 	{
 		if (i == 1)
 		{
-			first_cell = cells[i].getFillColor();
+			first_cell = cells[i].square.getFillColor();
 		}
 		if (i == cells.size() - 1)
 		{
-			cells[i].setFillColor(first_cell);
+			cells[i].square.setFillColor(first_cell);
 		}
 		else
 		{
-			cells[i].setFillColor(cells[i + 1].getFillColor());
+			cells[i].square.setFillColor(cells[i + 1].square.getFillColor());
 		}
+	}
+}
+
+void Board::draw(sf::RenderTarget& target)
+{
+	for (size_t i = 0; i < cells.size(); ++i)
+	{
+		cells[i].draw(target, sf::RenderStates());	
 	}
 }
 
