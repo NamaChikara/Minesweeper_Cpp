@@ -3,8 +3,7 @@
 InfoBar::InfoBar(int tt, int bb, int mm,
 	float yloc, float swidth,
 	std::string font_file)
-	: time{ tt }, bombs{ bb }, mistakes{ mm },
-	screen_width{ swidth }, y_offset{ yloc }
+	: screen_width{ swidth }, y_offset{ yloc }
 {
 	if (!font.loadFromFile(font_file))
 	{
@@ -24,6 +23,21 @@ InfoBar::InfoBar(int tt, int bb, int mm,
 	mistake_text.setFont(font);
 	mistake_text.setCharacterSize(24);
 	mistake_text.setFillColor(sf::Color::Blue);
+}
+
+void InfoBar::update_text(sf::Clock clock, const Board& m_board)
+{
+	int mistakes_made = m_board.num_mistakes();
+	std::string m_text = "Mistakes: " + std::to_string(mistakes_made);
+	mistake_text.setString(m_text);
+
+	int bombs_unmarked = m_board.num_bombs() - m_board.num_marked() - mistakes_made;
+	std::string b_text = "Unmarked: " + std::to_string(bombs_unmarked);
+	bomb_text.setString(b_text);
+
+	sf::Time elapsed = clock.getElapsedTime();
+	int time = (int)elapsed.asSeconds();
+	clock_text.setString(std::to_string(time));
 }
 
 void InfoBar::update_location()
@@ -49,4 +63,12 @@ void InfoBar::draw(sf::RenderTarget& target, sf::RenderStates) const
 	target.draw(clock_text);
 	target.draw(bomb_text);
 	target.draw(mistake_text);
+}
+
+void InfoBar::update(sf::Clock clock, const Board& m_board,
+	sf::RenderTarget& target)
+{
+	update_text(clock, m_board);
+	update_location();
+	draw(target, sf::RenderStates());
 }

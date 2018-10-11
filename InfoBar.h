@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream> 
+#include "Board.h"
 
 class InfoBar : public sf::Drawable 
 {
@@ -18,7 +19,14 @@ public:
 	//  right corners (different for each); the string is the font file name for font
 	InfoBar(int, int, int, float, float, std::string);		
 						
+	// update calls update_text, update_location, and draw
+	void update(sf::Clock, const Board&, sf::RenderTarget&);
+
+private:
+	void update_text(sf::Clock, const Board& );
 	void update_location();
+	// override sf::Drawable's pure virtual function
+	virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 	sf::Font font;	// must load a font to draw Text objects
 
@@ -28,15 +36,8 @@ public:
 	sf::Text mistake_text;
 
 	// data
-	int time;
-	int bombs;
-	int mistakes;
 	float screen_width;
 	float y_offset;
-
-	// override sf::Drawable's pure virtual function
-	virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
-
 };
 
 #endif //!InfoBar_H
