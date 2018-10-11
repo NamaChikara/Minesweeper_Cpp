@@ -12,7 +12,8 @@ public:
 	// construct RectangleShape, set covered to true, marked and mistake
 	//  to false;  move to the appropriate board location.
 	//  the last int specifies outline thickness of the RectangleShape
-	GraphicCell(sf::Vector2f, int, int, bool, int, int);
+	GraphicCell(sf::RenderWindow&, sf::Vector2f, int, int, bool, int, int);
+	sf::RenderWindow& window;	// where to draw the RectangleShapes
 	int xloc;		// x coordinate within the window
 	int yloc;		// y coordinate within the window
 	bool bomb;		// true if the Cell holds a bomb
@@ -22,7 +23,8 @@ public:
 	bool mistake;	// true if user left clicks a bomb
 	void action(char);	// change values based on left or right click
 	void update();	// update cell color after action
-	std::vector<sf::Color> colors;
+	void draw();	// draw RectangleShape to window
+	std::vector<sf::Color> colors;	// for picking fill color
 };
 
 #endif // !GraphicCell_H
