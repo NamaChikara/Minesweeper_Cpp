@@ -99,35 +99,11 @@ int main()
 
 		m_board.draw(window);
 
-		// update InfoBar data
+		// update InfoBar data (update also draws to window)
 		if (!won)
 		{
-			int mistakes_made = m_board.num_mistakes();
-			std::string m_text = "Mistakes: " + std::to_string(mistakes_made);
-			m_info.mistake_text.setString(m_text);
-
-			int bombs_unmarked = bombs - m_board.num_marked() - mistakes_made;
-			std::string b_text = "Unmarked: " + std::to_string(bombs_unmarked);
-			m_info.bomb_text.setString(b_text);
-
-			sf::Time elapsed = clock.getElapsedTime();
-			int time = (int)elapsed.asSeconds();
-			m_info.clock_text.setString(std::to_string(time));
+			m_info.update(clock, m_board, window);
 		}
-		else
-		{
-			m_info.bomb_text.setString("Winner!");
-		}
-
-		m_info.update_location();
-
-		// draw the InfoBar
-		m_info.draw(window, sf::RenderStates());
-		/*
-		window.draw(m_info.clock_text);
-		window.draw(m_info.bomb_text);
-		window.draw(m_info.mistake_text);
-		*/
 
 		// reset the value of user_action for the next loop
 		user_action = Click{};
