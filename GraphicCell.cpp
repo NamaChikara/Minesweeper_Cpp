@@ -1,8 +1,8 @@
 #include "GraphicCell.h"
 
-GraphicCell::GraphicCell(sf::RenderWindow& display, sf::Vector2f vv, 
-	int c_xloc, int c_yloc, bool c_bomb, int c_touch, int c_border)
-	: window{ display }, square{ vv }, xloc{ c_xloc }, yloc{ c_yloc },
+GraphicCell::GraphicCell(sf::Vector2f vv, int c_xloc, int c_yloc, 
+	bool c_bomb, int c_touch, int c_border)
+	: square{ vv }, xloc{ c_xloc }, yloc{ c_yloc },
 	bomb{ c_bomb }, touching{ c_touch }
 {
 	covered = true;
@@ -62,7 +62,7 @@ void GraphicCell::update()
 		square.setFillColor(sf::Color(255, 255, 0));	// marked as possible bomb
 }
 
-void GraphicCell::draw(sf::RenderTarget& target)
+void GraphicCell::draw(sf::RenderTarget& target, sf::RenderStates) const
 {
 	target.draw(square);
 }
