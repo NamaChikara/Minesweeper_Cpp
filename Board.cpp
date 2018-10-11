@@ -153,11 +153,6 @@ void Board::action(Click input)
 	}
 }
 
-int Board::get_num_cells()
-{
-	return num_cells;
-}
-
 int Board::num_marked() const
 {
 	int marked = 0;

@@ -20,7 +20,6 @@ public:
 	//  of the RenderWindow
 	Board(int, int, int, int, int);	
 	int get_cell(int, int);		// returns cell number; if click is not in a cell, -1
-	int get_num_cells();		// return the value of num_cells
 	void print_board();			// print board data for debugging
 	std::vector<GraphicCell> cells; // make some updates to move to private?
 	void action(Click);			// handle a user click on the window
