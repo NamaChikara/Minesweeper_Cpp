@@ -19,11 +19,6 @@ struct InfoBar
 						
 	void update_location();
 
-	// RectangleShapes will hold the Text objects
-	sf::RectangleShape clock;
-	sf::RectangleShape bomb_count;
-	sf::RectangleShape mistake_count;
-
 	sf::Font font;	// must load a font to draw Text objects
 
 	// Text objects will be placed inside the RectangleShapes
