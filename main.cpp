@@ -25,7 +25,7 @@ int main()
 	int bombs = 25;		// number of bombs the board should have
 	std::string font_file = "SourceSansPro.otf";	// font for Text objects
 
-	// initialize ColorBar and InfoBar heights since needed for RenderWindow dimension
+	// initialize ColorBar and InfoBar heights (needed for RenderWindow dimension)
 	float color_bar_height = 50;
 	float info_bar_height = 50;
 
@@ -34,14 +34,9 @@ int main()
 	float win_width = win_height - info_bar_height - color_bar_height;
 	sf::RenderWindow window(sf::VideoMode(win_width, win_height), "Minesweeper");
 
-	// initialize ColorBar
+	// initialize ColorBar and InfoBar
 	ColorBar m_color{ 11,win_width,color_bar_height,font_file };
-
-	// y offset for the info bar
-	float info_text_yset = 25;
-
-	// initialize InfoBar
-	InfoBar m_info{ 0,bombs,0,info_text_yset,win_width, font_file };
+	InfoBar m_info{ win_width, color_bar_height, info_bar_height, font_file };
 
 	// set/calculate GraphicCell dimensions
 	int b_width = 5;							// width of the border of a GraphicCell
@@ -50,12 +45,8 @@ int main()
 	int y_board_offset = (int)(info_bar_height + color_bar_height);
 	Board m_board{ dim,bombs,c_width,b_width,y_board_offset };
 
-	// initialize for use in window.isOpen() loop
-	Click user_action;
-
-	// to keep track of user progress
-	sf::Clock clock;
-	bool won = false;
+	Click user_action;	// initialize for use in window.isOpen() loop
+	sf::Clock clock;	// to keep track of user progress
 	
 	// to apply color shift effect in case of win
 	float elapsed = 0;			 // to keep track of time for color shift
@@ -67,9 +58,6 @@ int main()
 
 	while (window.isOpen())
 	{
-		// check to see if the user won the game
-		won = m_board.all_marked();
-
 		sf::Event event;
 
 		while (window.pollEvent(event))
@@ -98,8 +86,8 @@ int main()
 			m_board.action(user_action);	// pass the action to the Board to update
 		}
 
-		// apply cascade effect at intervals
-		if (won)
+		// apply cascade effect at intervals in case of win
+		if (m_board.all_marked())
 		{
 			if (elapsed < clock.getElapsedTime().asMilliseconds() - visual_interval)
 			{
@@ -113,7 +101,7 @@ int main()
 		m_color.draw(window, sf::RenderStates());
 
 		// update InfoBar if game is not yet won (update also draws to window)
-		if (!won)
+		if (!m_board.all_marked())
 		{
 			m_info.update(clock, m_board, window);
 		}
