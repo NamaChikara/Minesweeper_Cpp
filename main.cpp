@@ -21,7 +21,7 @@ int main()
 	//////////////////////////////////////////////////////////////////
 
 	// game specifications
-	int dim = 15;		// number of GraphicCells per row/column (square game board)
+	int dim = 20;		// number of GraphicCells per row/column (square game board)
 	int bombs = 25;		// number of bombs the board should have
 	std::string font_file = "SourceSansPro.otf";	// font for Text objects
 
