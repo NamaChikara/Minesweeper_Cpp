@@ -22,11 +22,12 @@ public:
 	// update calls update_text, update_location, and draw
 	void update(sf::Clock, const Board&, sf::RenderTarget&);
 
+	// override sf::Drawable's pure virtual function
+	virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
+
 private:
 	void update_text(sf::Clock, const Board& );
 	void update_location();
-	// override sf::Drawable's pure virtual function
-	virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 	sf::Font font;	// must load a font to draw Text objects
 

@@ -61,17 +61,16 @@ void InfoBar::update_location()
 	mistake_text.setPosition(sf::Vector2f(mistake_x, y_set));
 }
 
-void InfoBar::draw(sf::RenderTarget& target, sf::RenderStates) const
-{
-	target.draw(clock_text);
-	target.draw(bomb_text);
-	target.draw(mistake_text);
-}
-
 void InfoBar::update(sf::Clock clock, const Board& m_board,
 	sf::RenderTarget& target)
 {
 	update_text(clock, m_board);
 	update_location();
-	draw(target, sf::RenderStates());
+}
+
+void InfoBar::draw(sf::RenderTarget& target, sf::RenderStates) const
+{
+	target.draw(clock_text);
+	target.draw(bomb_text);
+	target.draw(mistake_text);
 }
