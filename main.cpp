@@ -96,15 +96,16 @@ int main()
 			}
 		}
 
-		// redraw the Board and ColorBar
-		m_board.draw(window);
-		m_color.draw(window, sf::RenderStates());
-
-		// update InfoBar if game is not yet won (update also draws to window)
+		// update InfoBar if game is not yet won 
 		if (!m_board.all_marked())
 		{
 			m_info.update(clock, m_board, window);
 		}
+
+		// redraw the Board, InfoBar, and ColorBar
+		m_board.draw(window);
+		m_info.draw(window, sf::RenderStates());
+		m_color.draw(window, sf::RenderStates());
 
 		// reset the value of user_action for the next loop
 		user_action = Click{};
