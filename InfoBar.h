@@ -17,7 +17,7 @@ public:
 	//  top left corner of each RectangleShape (they all have the same vertical orientation),
 	//  and the horizontal locations of the top of each (unique to each RectangleShape)
 	//  right corners (different for each); the string is the font file name for font
-	InfoBar(int, int, int, float, float, std::string);		
+	InfoBar(float, float, float, std::string);		
 						
 	// update calls update_text, update_location, and draw
 	void update(sf::Clock, const Board&, sf::RenderTarget&);
@@ -37,7 +37,8 @@ private:
 
 	// data
 	float screen_width;
-	float y_offset;
+	float y_offset;		// distance from the top of the RenderWindow to InfoBar
+	float info_height;	// vertical space allocated for InfoBar
 };
 
 #endif //!InfoBar_H

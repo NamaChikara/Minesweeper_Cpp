@@ -1,9 +1,8 @@
 #include "InfoBar.h"
 
-InfoBar::InfoBar(int tt, int bb, int mm,
-	float yloc, float swidth,
-	std::string font_file)
-	: screen_width{ swidth }, y_offset{ yloc }
+InfoBar::InfoBar(float swidth, float yloc, float height,
+	 std::string font_file)
+	: screen_width{ swidth }, y_offset{ yloc }, info_height{ height }
 {
 	if (!font.loadFromFile(font_file))
 	{
@@ -13,16 +12,16 @@ InfoBar::InfoBar(int tt, int bb, int mm,
 	// note: the string values of these text boxes is set in main.cpp
 	//  the locations are also set in main.cpp via InfoBar::update_location();
 	clock_text.setFont(font);
-	clock_text.setCharacterSize(24);
-	clock_text.setFillColor(sf::Color::Blue);
+	clock_text.setCharacterSize(30);
+	clock_text.setFillColor(sf::Color(255,255,255));
 
 	bomb_text.setFont(font);
-	bomb_text.setCharacterSize(24);
-	bomb_text.setFillColor(sf::Color::Blue);
+	bomb_text.setCharacterSize(30);
+	bomb_text.setFillColor(sf::Color(255,255,255));
 
 	mistake_text.setFont(font);
-	mistake_text.setCharacterSize(24);
-	mistake_text.setFillColor(sf::Color::Blue);
+	mistake_text.setCharacterSize(30);
+	mistake_text.setFillColor(sf::Color(255,255,255));
 }
 
 void InfoBar::update_text(sf::Clock clock, const Board& m_board)
@@ -42,20 +41,24 @@ void InfoBar::update_text(sf::Clock clock, const Board& m_board)
 
 void InfoBar::update_location()
 {
+	// x spacing first
 	float clock_width = clock_text.getGlobalBounds().width;
 	float bomb_width = bomb_text.getGlobalBounds().width;
 	float mistake_width = mistake_text.getGlobalBounds().width;
 
 	float spacing = (screen_width - clock_width - bomb_width - mistake_width) / 4;
 
+	// y spacing
+	float y_set = y_offset + (info_height - bomb_text.getGlobalBounds().height) / 2;
+
 	float clock_x = spacing;
-	clock_text.setPosition(sf::Vector2f(clock_x, y_offset));
+	clock_text.setPosition(sf::Vector2f(clock_x, y_set));
 
 	float bomb_x = 2 * spacing + clock_width;
-	bomb_text.setPosition(sf::Vector2f(bomb_x, y_offset));
+	bomb_text.setPosition(sf::Vector2f(bomb_x, y_set));
 
 	float mistake_x = 3 * spacing + clock_width + bomb_width;
-	mistake_text.setPosition(sf::Vector2f(mistake_x, y_offset));
+	mistake_text.setPosition(sf::Vector2f(mistake_x, y_set));
 }
 
 void InfoBar::draw(sf::RenderTarget& target, sf::RenderStates) const
