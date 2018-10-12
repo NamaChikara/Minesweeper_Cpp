@@ -1,6 +1,8 @@
-// This file uses Probability.h, Cell.h, and Board.h to generate a
-//  Minesweeper game and keep track of user progress.  It requires
-//  the SFML graphics library to run.
+// This file uses Probability.h, GraphicCell.h, Board.h, and InfoBar.h
+// to generate a  Minesweeper game and keep track of user progress.  It 
+// requires the SFML graphics library to run.
+
+// Developed by Zachary Barry (zackbarry13@gmail.com)
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -99,7 +101,7 @@ int main()
 
 		m_board.draw(window);
 
-		// update InfoBar data (update also draws to window)
+		// update InfoBar if game is not yet won (update also draws to window)
 		if (!won)
 		{
 			m_info.update(clock, m_board, window);
