@@ -105,16 +105,13 @@ void Board::load_cells()
 {
 	for (int i = 0; i < num_cells; ++i)
 	{
-		int xcell = i % dim;
-		int ycell = i / dim;
 		// calculate where the top left corner of the GraphicCell should be
-		int x_winloc = xcell * (width + 2 * buffer) + buffer;
-		// !! need to make sure float and int are used consistently
-		int y_winloc = ycell * (width + 2 * buffer) + buffer + y_offset;
-		float f_width = (float)width;
-		cells.push_back(GraphicCell{ sf::Vector2f{f_width,f_width},
-			x_winloc, y_winloc, bomb_locations[i], bomb_count[i],
-			buffer });
+		int xcell = i % dim;	// the column the GraphicCell is in
+		int ycell = i / dim;	// the row
+		float x_winloc = xcell * (width + 2 * buffer) + buffer;
+		float y_winloc = ycell * (width + 2 * buffer) + buffer + y_offset;
+		cells.push_back(GraphicCell{(float)width, x_winloc, y_winloc, 
+			bomb_locations[i], bomb_count[i], buffer });
 	}
 }
 

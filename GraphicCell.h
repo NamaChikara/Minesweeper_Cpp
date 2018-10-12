@@ -12,7 +12,7 @@ public:
 	// construct RectangleShape, set covered to true, marked and mistake
 	//  to false;  move to the appropriate board location.
 	//  the last int specifies outline thickness of the RectangleShape
-	GraphicCell(sf::Vector2f, float, float, bool, int, int);
+	GraphicCell(float, float, float, bool, int, int);
 	sf::RectangleShape square;
 	float xloc;		// x coordinate within the window
 	float yloc;		// y coordinate within the window

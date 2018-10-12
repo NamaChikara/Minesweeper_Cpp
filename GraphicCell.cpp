@@ -1,8 +1,8 @@
 #include "GraphicCell.h"
 
-GraphicCell::GraphicCell(sf::Vector2f vv, float c_xloc, float c_yloc, 
+GraphicCell::GraphicCell(float width, float c_xloc, float c_yloc, 
 	bool c_bomb, int c_touch, int c_border)
-	: square{ vv }, xloc{ c_xloc }, yloc{ c_yloc },
+	: square{ sf::Vector2f(width,width) }, xloc{ c_xloc }, yloc{ c_yloc },
 	bomb{ c_bomb }, touching{ c_touch }
 {
 	covered = true;
