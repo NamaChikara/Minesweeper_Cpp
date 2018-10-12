@@ -1,5 +1,5 @@
 // the Board class keeps track of all the Minesweeper cells; its constructor
-//  initializes the cells
+//  initializes the GraphicCells
 
 #pragma once
 
@@ -18,7 +18,7 @@ public:
 	// initialize the board with dimension, number of bombs, GraphicCell width,
 	//  GraphicCell border width, and how far to offset the Board from the top
 	//  of the RenderWindow
-	Board(int, int, int, int, int);	
+	Board(int, int, int, int, int);
 	int get_cell(int, int);		// returns cell number; if click is not in a cell, -1
 	void print_board();			// print board data for debugging
 	std::vector<GraphicCell> cells; // make some updates to move to private?
@@ -28,16 +28,16 @@ public:
 	int num_bombs() const;		// return number of bombs on the Board
 	bool all_marked() const;	// true if all bombs successfully marked/uncovered
 	void move_colors();			// visual effect in case of user win
-	void draw(sf::RenderTarget& );	// draw the GraphicCells in cells to RenderTarget
+	void draw(sf::RenderTarget&);	// draw the GraphicCells in cells to RenderTarget
 private:
 	// board initialization functions
 	std::vector<bool> load_bombs(int);	// output has length equal to num_cells, true/false
-									    //  based on bomb status (uses functions in Probability.h)
+										//  based on bomb status (uses functions in Probability.h)
 	int count_bombs(const std::vector<std::vector<int>>&);	// count the number of bombs in the GraphicCells
 															//  specified by the argument vector
 	std::vector<int> load_count();		// load the number of bombs a GraphicCell touches (uses count_bombs())
 	void load_cells();					// initialize cells vector by calling GraphicCell constructor
-    // data	
+	// data	
 	int bombs;			// total bombs
 	int num_cells;		// total GraphicCells
 	int dim;			// number of GraphicCells in a row/column (square board)

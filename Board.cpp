@@ -2,7 +2,7 @@
 
 Board::Board(int dimension, int bombs, int c_width,
 	int c_buffer, int y_off)
-	: bombs{ bombs }, dim{ dimension }, width{ c_width }, 
+	: bombs{ bombs }, dim{ dimension }, width{ c_width },
 	buffer{ c_buffer }, y_offset{ y_off }
 {
 	num_cells = dim * dim;
@@ -17,7 +17,7 @@ std::vector<bool> Board::load_bombs(int bombs)
 	std::vector<bool> bomb_loc;
 	bool bomb_found = false;
 	for (int i = 0; i < num_cells; ++i)
-	{	
+	{
 		for (int j = 0; j < locations.size(); ++j)
 		{
 			// coordinates are 0-indexed
@@ -53,8 +53,8 @@ std::vector<int> Board::load_count()
 	// left-most column
 	for (int i = 1; i < dim - 1; ++i)
 	{
-			adjacent = { {i - 1,0},{i - 1,1},{i,1},{i + 1,1},{i + 1,0} };
-			bomb_count[i*dim] = count_bombs(adjacent);
+		adjacent = { {i - 1,0},{i - 1,1},{i,1},{i + 1,1},{i + 1,0} };
+		bomb_count[i*dim] = count_bombs(adjacent);
 	}
 	// bottom-most row
 	for (int i = 1; i < dim - 1; ++i)
@@ -65,8 +65,8 @@ std::vector<int> Board::load_count()
 	// right-most column
 	for (int i = 1; i < dim - 1; ++i)
 	{
-			adjacent = { {i - 1,dim - 1},{i - 1,dim - 2},{i,dim - 2},{i + 1,dim - 2},{i + 1,dim - 1} };
-			bomb_count[i*dim + dim - 1] = count_bombs(adjacent);
+		adjacent = { {i - 1,dim - 1},{i - 1,dim - 2},{i,dim - 2},{i + 1,dim - 2},{i + 1,dim - 1} };
+		bomb_count[i*dim + dim - 1] = count_bombs(adjacent);
 	}
 	// top-most row
 	for (int i = 1; i < dim - 1; ++i)
@@ -110,10 +110,10 @@ void Board::load_cells()
 		// calculate where the top left corner of the GraphicCell should be
 		int x_winloc = xcell * (width + 2 * buffer) + buffer;
 		// !! need to make sure float and int are used consistently
-		int y_winloc = ycell * (width + 2 * buffer) + buffer + y_offset;  
+		int y_winloc = ycell * (width + 2 * buffer) + buffer + y_offset;
 		float f_width = (float)width;
 		cells.push_back(GraphicCell{ sf::Vector2f{f_width,f_width},
-			x_winloc, y_winloc, bomb_locations[i], bomb_count[i], 
+			x_winloc, y_winloc, bomb_locations[i], bomb_count[i],
 			buffer });
 	}
 }
@@ -225,7 +225,7 @@ void Board::draw(sf::RenderTarget& target)
 {
 	for (size_t i = 0; i < cells.size(); ++i)
 	{
-		cells[i].draw(target, sf::RenderStates());	
+		cells[i].draw(target, sf::RenderStates());
 	}
 }
 
