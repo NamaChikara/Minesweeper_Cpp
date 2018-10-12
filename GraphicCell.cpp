@@ -1,6 +1,6 @@
 #include "GraphicCell.h"
 
-GraphicCell::GraphicCell(sf::Vector2f vv, int c_xloc, int c_yloc, 
+GraphicCell::GraphicCell(sf::Vector2f vv, float c_xloc, float c_yloc, 
 	bool c_bomb, int c_touch, int c_border)
 	: square{ vv }, xloc{ c_xloc }, yloc{ c_yloc },
 	bomb{ c_bomb }, touching{ c_touch }

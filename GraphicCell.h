@@ -12,10 +12,10 @@ public:
 	// construct RectangleShape, set covered to true, marked and mistake
 	//  to false;  move to the appropriate board location.
 	//  the last int specifies outline thickness of the RectangleShape
-	GraphicCell(sf::Vector2f, int, int, bool, int, int);
+	GraphicCell(sf::Vector2f, float, float, bool, int, int);
 	sf::RectangleShape square;
-	int xloc;		// x coordinate within the window
-	int yloc;		// y coordinate within the window
+	float xloc;		// x coordinate within the window
+	float yloc;		// y coordinate within the window
 	bool bomb;		// true if the Cell holds a bomb
 	int touching;	// number of bombs a Cell touches
 	bool covered;	// true if Cell has never been clicked on
