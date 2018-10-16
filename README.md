@@ -25,6 +25,7 @@ https://www.sfml-dev.org/tutorials/2.5/#getting-started
 ```
 
 Finally, add the .cpp and .h files from this repository into a new project on your IDE.  If using VS 2017, note that you must also copy all the .dll files from
+
 ---
 C:\...\SFML-2.5.0\bin
 ---
