@@ -1,3 +1,6 @@
+// !! No longer needed for Minesweeper_Cpp --- the Cascade effect 
+//  has been included as a member function of the Board class.
+
 #include "Cascade.h"
 
 Cascade::Cascade(std::vector<GraphicCell>& m_cells)

@@ -1,3 +1,6 @@
+// !! No longer needed for Minesweeper_Cpp --- the Cascade effect 
+//  has been included as a member function of the Board class.
+
 // Cascade effect on the cell colors if the user wins
 
 #pragma once
@@ -10,10 +13,9 @@
 #include <vector>
 
 
-class Cascade
+struct Cascade
 {
 	Cascade(std::vector<GraphicCell>&);
-public:
 	void move_colors();
 	std::vector<GraphicCell> cells;
 };
